@@ -142,12 +142,18 @@
     </div>
 </body>
 <script type="text/javascript">
-    "use script";
+    'use script';
     $(function() {
         getMessagesCreateContent();
-        $("#confirmDelete").on("click",deleteMessage);
-        $("#confirmUpdate").on("click", updateMessage);
-        $("#confirmNewMesage").on("click",newMessage);
+        $('#confirmDelete').on('click', deleteMessage);
+        $('#confirmUpdate').on('click', function(event) {
+            event.preventDefault();
+            updateMessage();
+        });
+        $('#confirmNewMesage').on('click', function(event) {
+            event.preventDefault();
+            newMessage();
+        });
     });
 </script>
 

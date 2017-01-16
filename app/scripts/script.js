@@ -1,10 +1,10 @@
-" use strict";
+'use strict';
 
 function newMessage() {
     var data = {
-        'id': $("#new-message-id").val(),
-        'group': $("#new-message-group").val(),
-        'message': $("#new-message-content").val()
+        'id': $('#new-message-id').val(),
+        'group': $('#new-message-group').val(),
+        'message': $('#new-message-content').val()
     };
     var apiUrl = '/messages/';
     $.ajax({
@@ -15,7 +15,7 @@ function newMessage() {
         }).done(function(result) {
 
             getMessagesCreateContent();
-            $("#newModal").modal('hide');
+            $('#newModal').modal('hide');
             $('#main-alert').empty().append(createSuccessAlert('Success! message with id ' + result + '  added!'));
         })
         .fail(function(error) {
@@ -25,9 +25,9 @@ function newMessage() {
 
 function updateMessage() {
     var data = {
-        'id': $("#message-id").val(),
-        'group': $("#message-group").val(),
-        'message': $("#message-content").val()
+        'id': $('#message-id').val(),
+        'group': $('#message-group').val(),
+        'message': $('#message-content').val()
     };
     var apiUrl = '/messages/';
     $.ajax({
@@ -36,7 +36,7 @@ function updateMessage() {
         data: data
     }).done(function(result) {
         getMessagesCreateContent();
-        $("#editModal").modal('hide');
+        $('#editModal').modal('hide');
         $('#main-alert').empty().append(createSuccessAlert('Success! message with id ' + result + '  Updated!'));
     }).fail(function(error) {
         $('#edit-alert').empty().append(createWarningAlert('Error! Cannot Update records please try again later!'));
@@ -45,14 +45,14 @@ function updateMessage() {
 
 function deleteMessage() {
     var $input = $(this);
-    var idToDelete = $input.attr("id-delete");
+    var idToDelete = $input.attr('id-delete');
     var apiUrl = '/messages/' + idToDelete;
     $.ajax({
         url: apiUrl,
         type: 'DELETE'
     }).done(function(result) {
         getMessagesCreateContent();
-        $("#deleteModal").modal('hide');
+        $('#deleteModal').modal('hide');
         $('#main-alert').empty().append(createSuccessAlert('Success! message with id ' + result + '  Deleted!'));
     }).fail(function(error) {
         $('#delete-alert').empty().append(createWarningAlert('Error! Cannot delete message try again later!'));
@@ -61,21 +61,21 @@ function deleteMessage() {
 
 function addDeleteIdToModal() {
     var $input = $(this);
-    $("#confirmDelete").attr("id-delete", $input.attr("id-delete"));
+    $('#confirmDelete').attr('id-delete', $input.attr('id-delete'));
 }
 
 function addEditIdToModal() {
     var $input = $(this);
-    $("#message-id").val($input.attr("id-edit"));
-    $("#message-group").val($input.attr("group-edit"));
-    $("#message-content").val($input.attr("message-edit"));
+    $('#message-id').val($input.attr('id-edit'));
+    $('#message-group').val($input.attr('group-edit'));
+    $('#message-content').val($input.attr('message-edit'));
 }
 
 function getMessagesCreateContent() {
-    var apiUrl = "/messages";
+    var apiUrl = '/messages';
     $.getJSON(apiUrl, function(data) {
         var columns = ['Id', 'Group', 'Message', 'CreatedDate', 'Edit', 'Delete'];
-        createPageContent(data, columns, "#table-container");
+        createPageContent(data, columns, '#table-container');
     }).fail(function() {
 
         $('#main-alert').append(createAlert('Error! Something went wrong please try again later!'));
@@ -84,11 +84,11 @@ function getMessagesCreateContent() {
 
 function createPageContent(data, columns, placeholder) {
     $(placeholder).empty();
-    var table = ' <table class="table table-bordred table-striped"><thead><tr>';
+    var table = '<table class="table table-bordred table-striped"><thead><tr>';
     $.each(columns, function(index, value) {
         table += '<th>' + value + '</th>';
     });
-    table += ' </thead><tbody>';
+    table += '</thead><tbody>';
     table += '</tbody></table>';
     $(placeholder).append(table);
     var groupSet = new Set();
@@ -108,11 +108,11 @@ function createPageContent(data, columns, placeholder) {
         if (new Date(value['createdDate']).setHours(0, 0, 0, 0) === new Date(value['createdDate']).setHours(0, 0, 0, 0))
             messagesTodayCounter += 1;
     });
-    $("#group-counter").text(groupSet.size);
-    $("#message-counter").text(Object.keys(data).length);
-    $("#today-message-counter").text(messagesTodayCounter);
-    $(".delete-message").on("click", addDeleteIdToModal);
-    $(".edit-message").on("click", addEditIdToModal);
+    $('#group-counter').text(groupSet.size);
+    $('#message-counter').text(Object.keys(data).length);
+    $('#today-message-counter').text(messagesTodayCounter);
+    $('.delete-message').on("click", addDeleteIdToModal);
+    $('.edit-message').on("click", addEditIdToModal);
 }
 
 function createSuccessAlert(message) {
